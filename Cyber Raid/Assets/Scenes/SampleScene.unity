@@ -741,7 +741,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871661387}
+      - m_Target: {fileID: 227760313}
         m_TargetAssemblyTypeName: BoardController, Assembly-CSharp
         m_MethodName: ViewMap
         m_Mode: 1
@@ -3423,7 +3423,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 20
+  m_Priority: 50
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}

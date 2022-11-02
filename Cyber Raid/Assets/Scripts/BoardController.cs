@@ -141,7 +141,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (mapCam != null)
 		{
-			mapCam.transform.position = transform.position + new Vector3(-20, 15, 0);
+			mapCam.transform.position = transform.position + new Vector3(-30, 25, 0);
 			mapCam.SetActive(true);
 		}
 	}
