@@ -15,6 +15,7 @@ public class BoardController : MonoBehaviour
 	public Vector3 posOffset;
 	public Vector3 rotOffset;
 	public GameObject mapCam;
+	public GameObject mapCamObj;
 
 
 	[Header("Movement")]
@@ -72,8 +73,8 @@ public class BoardController : MonoBehaviour
 			if (this.transform.position != nextNode.transform.position + posOffset) 
 			{
 				var lookPos = nextNode.transform.position + posOffset - transform.position;
-				lookPos.y = 90;
-				var rotation = Quaternion.LookRotation(lookPos);
+				lookPos.y = 0;
+				var rotation = Quaternion.LookRotation(-lookPos);
 				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * rotateSpeed);
 
 				var step = moveSpeed * Time.fixedDeltaTime;
@@ -143,6 +144,11 @@ public class BoardController : MonoBehaviour
 		{
 			mapCam.transform.position = transform.position + new Vector3(-30, 25, 0);
 			mapCam.SetActive(true);
+			if (mapCamObj != null)
+			{
+				mapCamObj.transform.position = transform.position + new Vector3(-30, 25, 0);
+				mapCamObj.SetActive(true);
+			}
 		}
 	}
 
@@ -150,5 +156,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (mapCam != null)
 			mapCam.SetActive(false);
+		if (mapCamObj != null)
+			mapCamObj.SetActive(false);
 	}
 }
