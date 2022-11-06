@@ -6,12 +6,21 @@ using Rewired;
 public class PlayerSetupMenu : MonoBehaviour
 {
 	private Rewired.Player player;
-	public int playerId;
+	[HideInInspector] public int playerId;
+	[HideInInspector] public SetupManager manager;
+	[SerializeField] bool ready;
+	[SerializeField] int characterInd;
+	[SerializeField] GameObject selectedUi;
+	[SerializeField] GameObject readyUi;
 
 
 	void Awake() 
 	{
 		this.gameObject.SetActive(false);
+		if (selectedUi != null)
+			selectedUi.SetActive(true);
+		if (readyUi != null)
+			readyUi.SetActive(false);
 	}
 
     // Start is called before the first frame update
@@ -21,10 +30,37 @@ public class PlayerSetupMenu : MonoBehaviour
     }
 
     // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+    void Update()
+    {
+		if (player.GetButtonDown("A"))
+		{
+			ready = true;
+			if (manager != null)
+				manager.SetCharacter(playerId, 0);
+			if (selectedUi != null)
+				selectedUi.SetActive(false);
+			if (readyUi != null)
+				readyUi.SetActive(true);
+		}
+		else if (player.GetButtonDown("B"))
+		{
+			ready = false;
+			if (manager != null)
+				manager.DeselectCharacter();
+			if (selectedUi != null)
+				selectedUi.SetActive(true);
+			if (readyUi != null)
+				readyUi.SetActive(false);
+		}
+        else if (player.GetButtonDown("Left"))
+		{
+			Debug.Log("(" + playerId + ") Left");
+		}
+        else if (player.GetButtonDown("Right"))
+		{
+			Debug.Log("(" + playerId + ") Right");
+		}
+    }
 
 	// // todo : REWIRED ------------------------------------------------------------
 
