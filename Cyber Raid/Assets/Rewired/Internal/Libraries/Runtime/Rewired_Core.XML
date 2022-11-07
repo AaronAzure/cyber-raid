@@ -20712,7 +20712,7 @@
             Convert from +/- 32768 to +/- 1.0f
             </summary>
         </member>
-        <member name="M:Rewired.InputSources.SDL2.SDL2InputSource.GetGameControllerCount">
+        <member name="M:Rewired.InputSources.SDL2.SDL2InputSource.GetGameManagerCount">
             <summary>
             The value returned cannot be used to iterate! Always use GetJoystickCount!
             </summary>

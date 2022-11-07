@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Rewired;
 
-public class PlayerSetupMenu : MonoBehaviour
+public class SetupControls : MonoBehaviour
 {
 	private Rewired.Player player;
 	[HideInInspector] public int playerId;
@@ -82,7 +82,7 @@ public class PlayerSetupMenu : MonoBehaviour
 		else if (player.GetButtonDown("B") && manager != null && !manager.startingGame)
 		{
 			if (ready && manager != null)
-				manager.DeselectCharacter();
+				manager.DeselectCharacter(playerId);
 			ready = false;
 			holdingCancel = true;
 			if (selectedUi != null)

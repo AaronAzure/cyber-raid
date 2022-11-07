@@ -4,9 +4,15 @@ using UnityEngine;
 using TMPro;
 using Cinemachine;
 
-public class BoardController : MonoBehaviour
+public class BoardControls : MonoBehaviour
 {
 	public int playerId; [Space]
+	
+	public BoardManager manager; 
+	public GameManager gm; [Space]
+
+	public GameObject[] models;
+
 	public Node currentNode;
 	public Node nextNode;
 	[Space] public float moveSpeed = 10;
@@ -38,6 +44,14 @@ public class BoardController : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		if (gm != null)
+		{
+			int ind = gm.characterInds[playerId];
+			if (ind < models.Length)
+			{
+				var obj = Instantiate(models[ind], transform.position + Vector3.up, Quaternion.identity, transform);
+			}
+		}
 		// Find next path
 		if (currentNode != null && currentNode.nodes != null && currentNode.nodes.Count > 0)
 		{

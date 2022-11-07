@@ -6,8 +6,9 @@ using Rewired;
 
 public class SetupManager : MonoBehaviour
 {
-	public PlayerSetupMenu[] players;
+	public SetupControls[] players;
 	public List<int> characterInds;
+	[Space] public GameManager gm; [Space]
 	[SerializeField] private int nConnected;
 	[SerializeField] private int nReady;
 	private bool initGame;
@@ -26,14 +27,14 @@ public class SetupManager : MonoBehaviour
         ReInput.ControllerConnectedEvent += OnControllerConnected;
         ReInput.ControllerDisconnectedEvent += OnControllerDisconnected;
 		characterInds = new List<int>();
-		characterInds.Add(0);
-		characterInds.Add(0);
-		characterInds.Add(0);
-		characterInds.Add(0);
-		characterInds.Add(0);
-		characterInds.Add(0);
-		characterInds.Add(0);
-		characterInds.Add(0);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
+		characterInds.Add(-1);
     }
 
     // Start is called before the first frame update
@@ -85,27 +86,39 @@ public class SetupManager : MonoBehaviour
 		}
 	}
 
-	public void SetCharacter(int id, int x)
+	public void SetCharacter(int id, int ind)
 	{
 		if (id < characterInds.Count)
 		{
 			nReady++;
-			characterInds[id] = x;
+			characterInds[id] = ind;
+			// if (gm != null && id < gm.characterInds.Count)
+			// 	gm.characterInds[id] = ind;
 			if (nReady == nConnected && startUi != null)
 				startUi.SetActive(true);
 		}	
 	}
-	public void DeselectCharacter()
+	public void DeselectCharacter(int id)
 	{
 		nReady--;
 		if (startUi != null)
 			startUi.SetActive(false);
+		if (id < characterInds.Count)
+			characterInds[id] = -1;
 	}
 
 	public void NextScene()
 	{
 		if (nReady == nConnected)
 		{
+			if (gm != null)
+			{
+				gm.nPlayers = nReady;
+				for (int i=0 ; i<characterInds.Count ; i++)
+					if (characterInds[i] < gm.characterInds.Count)
+						gm.characterInds[ i ] = characterInds[i];
+			}
+
 			startingGame = true;
 			NextAnimStage();
 			StartCoroutine( LoadingNextScene() );
