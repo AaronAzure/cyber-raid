@@ -10,8 +10,14 @@ public class SetupManager : MonoBehaviour
 	public List<int> characterInds;
 	[SerializeField] private int nConnected;
 	[SerializeField] private int nReady;
-	private bool startingGame;
+	private bool initGame;
+	public bool startingGame;
 	[SerializeField] Animator introAnim;
+	public SetupManagerAddOn managerAddOn;
+	[SerializeField] GameObject titleScreenUi;
+	[SerializeField] GameObject serverUi;
+	[SerializeField] GameObject characterUi;
+	[SerializeField] GameObject startUi;
 
 
 	void Awake() 
@@ -33,12 +39,33 @@ public class SetupManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		ToTitleUI();
         for (int i=0 ; i<players.Length ; i++)
 		{
 			players[i].playerId = i;
 			players[i].manager = this;
 		}
     }
+
+	public void ToTitleUI()
+	{
+		if (titleScreenUi != null) titleScreenUi.SetActive(true);
+		if (serverUi != null) serverUi.SetActive(false);
+		if (characterUi != null) characterUi.SetActive(false);
+		if (managerAddOn != null) managerAddOn.enabled = true;
+	}
+	public void ToServerUI()
+	{
+		if (titleScreenUi != null) titleScreenUi.SetActive(false);
+		if (serverUi != null) serverUi.SetActive(true);
+		if (characterUi != null) characterUi.SetActive(false);
+	}
+	public void ToCharacterUI()
+	{
+		if (titleScreenUi != null) titleScreenUi.SetActive(false);
+		if (serverUi != null) serverUi.SetActive(false);
+		if (characterUi != null) characterUi.SetActive(true);
+	}
 
 	public void NextAnimStage()
 	{
@@ -64,11 +91,15 @@ public class SetupManager : MonoBehaviour
 		{
 			nReady++;
 			characterInds[id] = x;
+			if (nReady == nConnected && startUi != null)
+				startUi.SetActive(true);
 		}	
 	}
 	public void DeselectCharacter()
 	{
 		nReady--;
+		if (startUi != null)
+			startUi.SetActive(false);
 	}
 
 	public void NextScene()
@@ -76,14 +107,20 @@ public class SetupManager : MonoBehaviour
 		if (nReady == nConnected)
 		{
 			startingGame = true;
+			NextAnimStage();
 			StartCoroutine( LoadingNextScene() );
 		}
 	}
 
 	IEnumerator LoadingNextScene()
 	{
-		yield return new WaitForEndOfFrame();
-		// yield return new WaitForSeconds(0);
+		yield return new WaitForSeconds(0.5f);
+		if (titleScreenUi != null) titleScreenUi.SetActive(false);
+		if (serverUi != null) serverUi.SetActive(false);
+		if (characterUi != null) characterUi.SetActive(false);
+
+		// yield return new WaitForEndOfFrame();
+		yield return new WaitForSeconds(1);
 		SceneManager.LoadScene(1);
 	}
 
@@ -95,9 +132,9 @@ public class SetupManager : MonoBehaviour
 	{
 		if (startingGame)
 			return;
-		Debug.Log("OnControllerConnected = " + args.controllerId + "(" + args.controllerType + ")");
 		if (args.controllerId < players.Length && args.controllerType == Rewired.ControllerType.Joystick)
 		{
+			Debug.Log("OnControllerConnected = " + args.controllerId + "(" + args.controllerType + ")");
 			nConnected++;
 			players[args.controllerId].gameObject.SetActive(true);
 		}
@@ -108,9 +145,9 @@ public class SetupManager : MonoBehaviour
 	{
 		if (startingGame)
 			return;
-		Debug.Log("OnControllerDisconnected = " + args.controllerId + "(" + args.controllerType + ")");
 		if (args.controllerId < players.Length && args.controllerType == Rewired.ControllerType.Joystick)
 		{
+			Debug.Log("OnControllerDisconnected = " + args.controllerId + "(" + args.controllerType + ")");
 			nConnected--;
 			players[args.controllerId].gameObject.SetActive(false);
 		}
