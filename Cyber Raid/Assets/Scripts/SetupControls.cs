@@ -12,6 +12,7 @@ public class SetupControls : MonoBehaviour
 	[SerializeField] bool ready;
 	bool holdingCancel;
 	[SerializeField] int characterInd;
+	[SerializeField] GameObject[] characters;
 	[SerializeField] GameObject selectedUi;
 	[SerializeField] GameObject readyUi;
 	float timer;
@@ -38,6 +39,10 @@ public class SetupControls : MonoBehaviour
         player = ReInput.players.GetPlayer(playerId);
 		if (slider != null) slider.value = 0;
 		timer = 0;
+
+		characterInd = Random.Range(0, characters.Length);
+		if (characterInd < characters.Length)
+			characters[characterInd].SetActive(true);
     }
 
     // Update is called once per frame
@@ -62,18 +67,17 @@ public class SetupControls : MonoBehaviour
 
 
 		if (player.GetButtonDown("Start"))
-		{
-			if (manager != null)
-			{
-				manager.NextScene();
-			}
-				
-		}
+			manager.NextScene();
+		else if (!ready && player.GetButtonDown("Left"))
+			ChangeCharacter(false);
+		else if (!ready && player.GetButtonDown("Right"))
+			ChangeCharacter(true);
+
 		else if (player.GetButtonDown("A") && manager != null && !manager.startingGame)
 		{
 			ready = true;
 			if (manager != null)
-				manager.SetCharacter(playerId, playerId);
+				manager.SetCharacter(playerId, characterInd);
 			if (selectedUi != null)
 				selectedUi.SetActive(false);
 			if (readyUi != null)
@@ -105,6 +109,33 @@ public class SetupControls : MonoBehaviour
 			Debug.Log("(" + playerId + ") Right");
 		}
     }
+
+
+	void ChangeCharacter(bool increment)
+	{
+		if (increment)
+		{
+			characters[characterInd].SetActive(false);
+			if ((characterInd + 1) < characters.Length)
+				characters[++characterInd].SetActive(true);
+			else
+			{
+				characterInd = 0;
+				characters[0].SetActive(true);
+			}
+		}
+		else
+		{
+			characters[characterInd].SetActive(false);
+			if (characterInd > 0)
+				characters[--characterInd].SetActive(true);
+			else
+			{
+				characterInd = characters.Length - 1;
+				characters[characterInd].SetActive(true);
+			}
+		}
+	}
 
 	// // todo : REWIRED ------------------------------------------------------------
 
