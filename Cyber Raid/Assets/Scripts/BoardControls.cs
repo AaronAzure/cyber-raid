@@ -102,6 +102,12 @@ public class BoardControls : MonoBehaviour
 	}
 
 	// Update is called once per frame
+	void Update() 
+	{
+		if (viewingMap && player.GetButtonDown("B"))
+			CloseMap();
+	}
+
 	void FixedUpdate()
 	{
 		// VIEWING MAP (PANNING)
@@ -221,7 +227,7 @@ public class BoardControls : MonoBehaviour
 		viewingMap = this.enabled = true;
 		if (mapCam != null)
 		{
-			mapCam.transform.position = transform.position + new Vector3(-30, 25, 0);
+			mapCam.transform.position = transform.position + new Vector3(0, 25, -30);
 			mapCam.SetActive(true);
 			// if (mapCamObj != null)
 			// {
