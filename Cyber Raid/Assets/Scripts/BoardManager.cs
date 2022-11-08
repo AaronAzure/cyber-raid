@@ -12,10 +12,14 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private List<BoardControls> players;
 	[SerializeField] private Transform spawnPos;
 	[SerializeField] private float spawnRadius=2;
+	[SerializeField] private GameObject mapCam;
+	[SerializeField] private GameObject mapCamObj;
+
 
 
 	[Header("Board Related")]
 	[SerializeField] private Node startingNode;
+	[SerializeField] private Transform mainCam;
 	[SerializeField] private GameManager gm;
 
 	
@@ -32,6 +36,7 @@ public class BoardManager : MonoBehaviour
 		nPlayers = gm.nPlayers;
 		players = new List<BoardControls>();
 		SpawnPlayersInCircle();
+		players[0].YOUR_TURN();
     }
 
 
@@ -55,11 +60,11 @@ public class BoardManager : MonoBehaviour
             BoardControls player = Instantiate(playerObj, pos, Quaternion.identity, transform);
             // player.transform.parent = instances.transform;
             // player.transform.localScale *= ratio;
-            player.playerId = i; 
-            player.name = "Player_" + (i+1); 
+            player.SetPlayerConfig(i, gm.rewInputManager, mapCam, mapCamObj); 
             player.manager = this;
             player.gm = this.gm;
             player.currentNode = startingNode;
+			player.moveCounter.cam = this.mainCam;
             // player.sceneName = this.sceneName;
 
 			players.Add(player);

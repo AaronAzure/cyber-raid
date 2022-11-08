@@ -1,27 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-using Cinemachine;
+using Rewired;
+// using Cinemachine;
 
 public class BoardControls : MonoBehaviour
 {
-	public int playerId; [Space]
+	[Header("Rewired")]
+	public int playerId; 
+	private Player player; 
+	[SerializeField] GameObject playerCam; 
+	[SerializeField] Rewired.Integration.UnityUI.RewiredStandaloneInputModule rewiredModule;
 	
+
+	[Space] [Header("Managers")]
 	public BoardManager manager; 
-	public GameManager gm; [Space]
+	public GameManager gm;
 
-	public GameObject[] models;
 
+	[Space] [Header("Paths")]
 	public Node currentNode;
 	public Node nextNode;
-	[Space] public float moveSpeed = 10;
+	public GameObject[] models;
+	[Space] public float moveSpeed = 20;
 	public float rotateSpeed = 5;
 	private float timer = 0;
+	public BillBoard moveCounter;
+
+
+	[SerializeField] GameObject options;
+	[SerializeField] Button defaultButton;
 	public Vector3 posOffset;
 	public Vector3 rotOffset;
-	public GameObject mapCam;
-	public GameObject mapCamObj;
 
 
 	[Header("Movement")]
@@ -31,6 +43,29 @@ public class BoardControls : MonoBehaviour
 	private bool canMove;
 	private bool canMoveAside;
 	private Vector3 asidePos;
+
+
+	[Space] [Header("Paths")]
+	private bool viewingMap;
+	private GameObject mapCam;
+	[Space] public float mapSpeed = 20;
+	private GameObject mapCamObj;
+
+
+	public void SetPlayerConfig(int id, Rewired.InputManager rim, GameObject cam, GameObject camObj)
+	{
+		playerId = id;
+		this.name = "Player " + id;
+		if (rewiredModule != null)
+		{
+			rewiredModule.RewiredPlayerIds = new int[]{id};
+			rewiredModule.RewiredInputManager = rim;
+		}
+		mapCam = cam;
+		mapCamObj = camObj;
+	}
+
+
 
 
 	void OnEnable() 
@@ -44,6 +79,12 @@ public class BoardControls : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		player = ReInput.players.GetPlayer(playerId);
+		// DEACTIVATE PLAYER CAM
+		if (playerCam != null)
+		{
+			playerCam.transform.parent = null;
+		}
 		if (gm != null)
 		{
 			int ind = gm.characterInds[playerId];
@@ -63,8 +104,13 @@ public class BoardControls : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
+		// VIEWING MAP (PANNING)
+		if (viewingMap)
+		{
+			MoveMap();
+		}
 		// DONE MOVING, MOVE ASIDE FOR OTHER PLAYERS
-		if (canMoveAside)
+		else if (canMoveAside)
 		{
 			// MOVING
 			if (this.transform.position != asidePos) 
@@ -132,6 +178,24 @@ public class BoardControls : MonoBehaviour
 		}
 	}
 
+	public void YOUR_TURN()
+	{
+		if (options != null)
+			options.SetActive(true);
+		else
+			Debug.LogError("", this);
+		
+		if (defaultButton != null)
+			defaultButton.Select();
+
+		if (playerCam != null)
+		{
+			playerCam.SetActive(true);
+			Debug.Log(playerCam.activeSelf);
+		}
+	}
+
+
 	public void SetMoveCount(int n=-1)
 	{
 		moveCount = (n != -1 ? n : Random.Range(1,maxMovement + 1));
@@ -154,23 +218,36 @@ public class BoardControls : MonoBehaviour
 
 	public void ViewMap()
 	{
+		viewingMap = this.enabled = true;
 		if (mapCam != null)
 		{
 			mapCam.transform.position = transform.position + new Vector3(-30, 25, 0);
 			mapCam.SetActive(true);
-			if (mapCamObj != null)
-			{
-				mapCamObj.transform.position = transform.position + new Vector3(-30, 25, 0);
-				mapCamObj.SetActive(true);
-			}
+			// if (mapCamObj != null)
+			// {
+			// 	mapCamObj.transform.position = transform.position + new Vector3(-30, 25, 0);
+			// 	mapCamObj.SetActive(true);
+			// }
 		}
 	}
 
 	public void CloseMap()
 	{
+		viewingMap = this.enabled = false;
 		if (mapCam != null)
 			mapCam.SetActive(false);
-		if (mapCamObj != null)
-			mapCamObj.SetActive(false);
+		// if (mapCamObj != null)
+		// 	mapCamObj.SetActive(false);
+	}
+
+	private void MoveMap()
+	{
+		float x = player.GetAxis("Move Horizontal");
+		float z = player.GetAxis("Move Vertical");
+
+		if (mapCam != null)
+		{
+			mapCam.transform.position = new Vector3(mapCam.transform.position.x + x, mapCam.transform.position.y, mapCam.transform.position.z + z);
+		}
 	}
 }

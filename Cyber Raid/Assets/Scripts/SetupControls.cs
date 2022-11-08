@@ -66,7 +66,7 @@ public class SetupControls : MonoBehaviour
 		}
 
 
-		if (player.GetButtonDown("Start"))
+		if (playerId == 0 && player.GetButtonDown("Start"))
 			manager.NextScene();
 		else if (!ready && player.GetButtonDown("Left"))
 			ChangeCharacter(false);

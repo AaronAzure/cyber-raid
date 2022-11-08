@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class GameManager : MonoBehaviour
 {
 	public int nPlayers;
 	public List<int> characterInds;
+	public Rewired.InputManager rewInputManager;
 
 	void Awake() 
 	{
