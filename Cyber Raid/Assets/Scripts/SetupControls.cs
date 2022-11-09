@@ -73,7 +73,7 @@ public class SetupControls : MonoBehaviour
 		else if (!ready && player.GetButtonDown("Right"))
 			ChangeCharacter(true);
 
-		else if (player.GetButtonDown("A") && manager != null && !manager.startingGame)
+		else if (!ready && player.GetButtonDown("A") && manager != null && !manager.startingGame)
 		{
 			ready = true;
 			if (manager != null)
@@ -83,9 +83,9 @@ public class SetupControls : MonoBehaviour
 			if (readyUi != null)
 				readyUi.SetActive(true);
 		}
-		else if (player.GetButtonDown("B") && manager != null && !manager.startingGame)
+		else if (ready && player.GetButtonDown("B") && manager != null && !manager.startingGame)
 		{
-			if (ready && manager != null)
+			if (manager != null)
 				manager.DeselectCharacter(playerId);
 			ready = false;
 			holdingCancel = true;

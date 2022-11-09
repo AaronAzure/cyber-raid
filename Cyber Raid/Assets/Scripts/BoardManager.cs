@@ -21,6 +21,8 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private Node startingNode;
 	[SerializeField] private Transform mainCam;
 	[SerializeField] private GameManager gm;
+	[SerializeField] private List<int> playerOrder;
+	private int nextPlayer;
 
 	
     // Start is called before the first frame update
@@ -35,8 +37,10 @@ public class BoardManager : MonoBehaviour
 		}
 		nPlayers = gm.nPlayers;
 		players = new List<BoardControls>();
+		playerOrder = new List<int>();
+
 		SpawnPlayersInCircle();
-		players[0].YOUR_TURN();
+		NextPlayerTurn();
     }
 
 
@@ -44,6 +48,9 @@ public class BoardManager : MonoBehaviour
 	{
 		for ( int i=0 ; i<nPlayers ; i++ )
         {
+			if (gm.characterInds[i] == -1)
+				continue;
+				
             /* Distance around the circle */  
             var radians = 2 * Mathf.PI / nPlayers * i;
             
@@ -68,12 +75,26 @@ public class BoardManager : MonoBehaviour
             // player.sceneName = this.sceneName;
 
 			players.Add(player);
+			playerOrder.Add(i);
         }
 	}
 
+
+	public void NextPlayerTurn()
+	{
+		if (nextPlayer < playerOrder.Count)
+		{
+			players[ playerOrder[nextPlayer++] ].YOUR_TURN();
+		}
+		// EVERYONE HAS THEIR TURN
+		else
+		{
+			Debug.Log("MINIGAME!!");
+		}
+	}
     // Update is called once per frame
-    void Update()
-    {
+    // void Update()
+    // {
         
-    }
+    // }
 }

@@ -50,6 +50,7 @@ public class BoardControls : MonoBehaviour
 	private GameObject mapCam;
 	[Space] public float mapSpeed = 20;
 	private GameObject mapCamObj;
+	public int test;
 
 
 	public void SetPlayerConfig(int id, Rewired.InputManager rim, GameObject cam, GameObject camObj)
@@ -122,14 +123,22 @@ public class BoardControls : MonoBehaviour
 			if (this.transform.position != asidePos) 
 			{
 				var step = moveSpeed * Time.fixedDeltaTime;
-				this.transform.position = Vector3.MoveTowards(
-					this.transform.position, asidePos, step);
+				transform.position = Vector3.MoveTowards(transform.position, asidePos, step);
+			}
+			// ROTATE TO CAMERA
+			else if (transform.rotation.y > 0.001f || transform.rotation.y < -0.001f) 
+			{
+				var rotation = Quaternion.LookRotation(Vector3.forward);
+				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * rotateSpeed);
+				test++;
 			}
 			// REACHED
 			else
 			{
+				Debug.Log(test);
 				this.enabled = false;
 				canMoveAside = false;
+				EndTurn();
 			}
 		}
 		// MOVE TO NEXT NODE
@@ -195,12 +204,16 @@ public class BoardControls : MonoBehaviour
 			defaultButton.Select();
 
 		if (playerCam != null)
-		{
 			playerCam.SetActive(true);
-			Debug.Log(playerCam.activeSelf);
-		}
 	}
 
+	public void EndTurn()
+	{
+		options.SetActive(false);
+		playerCam.SetActive(false);
+		this.enabled = false;
+		manager.NextPlayerTurn();
+	}
 
 	public void SetMoveCount(int n=-1)
 	{
@@ -210,6 +223,8 @@ public class BoardControls : MonoBehaviour
 			moveCounterTxt.gameObject.SetActive(true);
 			moveCounterTxt.text = moveCount.ToString();
 		}
+		if (options != null)
+			options.SetActive(false);
 		this.enabled = true;
 		StartCoroutine( DelayMove() );
 	}
@@ -235,6 +250,7 @@ public class BoardControls : MonoBehaviour
 			// 	mapCamObj.SetActive(true);
 			// }
 		}
+		options.SetActive(false);
 	}
 
 	public void CloseMap()
@@ -242,6 +258,7 @@ public class BoardControls : MonoBehaviour
 		viewingMap = this.enabled = false;
 		if (mapCam != null)
 			mapCam.SetActive(false);
+		options.SetActive(true);
 		// if (mapCamObj != null)
 		// 	mapCamObj.SetActive(false);
 	}
