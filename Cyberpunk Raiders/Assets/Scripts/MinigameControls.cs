@@ -26,6 +26,7 @@ public class MinigameControls : MonoBehaviour
 	public float moveSpeed = 20;
 	public float rotateSpeed = 20;
 	private Vector3 calcMoveDir;
+	private Vector3 calcRotDir;
 	[SerializeField] Rigidbody rb;
 	private bool receivingKb;
 	[SerializeField] float kbForce=20;
@@ -60,7 +61,8 @@ public class MinigameControls : MonoBehaviour
 	{
 		float x = player.GetAxis("Move Horizontal");
 		float z = player.GetAxis("Move Vertical");
-		calcMoveDir = new Vector3(x, 0 , z);
+		calcRotDir = new Vector3(x, 0 , z);
+		calcMoveDir = new Vector3(x * moveSpeed, rb.velocity.y , z * moveSpeed);
 	}
 
 
@@ -68,16 +70,16 @@ public class MinigameControls : MonoBehaviour
 	{
 		if (rb != null)
 		{
-			// rb.velocity = calcMoveDir;
+			rb.velocity = calcMoveDir;
 
-			if (calcMoveDir == Vector3.zero)
+			if (calcRotDir == Vector3.zero)
 				return;
-			Quaternion targetRotation = Quaternion.LookRotation(-calcMoveDir);
+			Quaternion targetRotation = Quaternion.LookRotation(-calcRotDir);
 			targetRotation = Quaternion.RotateTowards(
 					transform.rotation,
 					targetRotation,
 					720 * Time.fixedDeltaTime);
-			rb.MovePosition(rb.position + calcMoveDir * moveSpeed * Time.fixedDeltaTime);
+			// rb.MovePosition(rb.position + calcMoveDir * moveSpeed * Time.fixedDeltaTime);
 			rb.MoveRotation(targetRotation);
 			// var rotation = Quaternion.LookRotation(-calcMoveDir);
 			// transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * rotateSpeed);
@@ -86,7 +88,7 @@ public class MinigameControls : MonoBehaviour
 
 	private void OnCollisionEnter(Collision other) 
 	{
-		if (other.gameObject.CompareTag("Player"))	
+		if (!receivingKb && other.gameObject.CompareTag("Player"))	
 		{
 			StartCoroutine( ApplyKnockback(other.gameObject.transform, kbForce) );
 		}
