@@ -31,6 +31,7 @@ public class BoardControls : MonoBehaviour
 
 
 	[SerializeField] GameObject options;
+	[SerializeField] GameObject dataUi;
 	[SerializeField] Button defaultButton;
 	public Vector3 posOffset;
 	public Vector3 rotOffset;
@@ -66,7 +67,14 @@ public class BoardControls : MonoBehaviour
 		mapCamObj = camObj;
 	}
 
-
+	public void SetUiData(Transform obj)
+	{
+		if (dataUi != null)
+		{
+			dataUi.transform.parent = obj;
+			dataUi.transform.localScale = new Vector3(1,1,1);
+		}
+	}
 
 
 	void OnEnable() 
@@ -126,7 +134,7 @@ public class BoardControls : MonoBehaviour
 				transform.position = Vector3.MoveTowards(transform.position, asidePos, step);
 			}
 			// ROTATE TO CAMERA
-			else if (transform.rotation.y > 0.001f || transform.rotation.y < -0.001f) 
+			else if (transform.rotation.y > 0.01f || transform.rotation.y < -0.01f) 
 			{
 				var rotation = Quaternion.LookRotation(Vector3.forward);
 				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * rotateSpeed);

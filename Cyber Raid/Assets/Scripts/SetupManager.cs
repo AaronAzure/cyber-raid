@@ -8,6 +8,7 @@ public class SetupManager : MonoBehaviour
 {
 	public SetupControls[] players;
 	public List<int> characterInds;
+
 	[Space] public GameManager gm; [Space]
 	[SerializeField] private int nConnected;
 	[SerializeField] private int nReady;
@@ -19,6 +20,9 @@ public class SetupManager : MonoBehaviour
 	[SerializeField] GameObject serverUi;
 	[SerializeField] GameObject characterUi;
 	[SerializeField] GameObject startUi;
+
+
+	[Space] [SerializeField] int nextScene=1;
 
 
 	void Awake() 
@@ -134,7 +138,7 @@ public class SetupManager : MonoBehaviour
 
 		// yield return new WaitForEndOfFrame();
 		yield return new WaitForSeconds(1);
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(nextScene);
 	}
 
 

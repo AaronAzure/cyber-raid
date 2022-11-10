@@ -18801,6 +18801,7 @@ MonoBehaviour:
   serverUi: {fileID: 247504131}
   characterUi: {fileID: 1662019834}
   startUi: {fileID: 1992431083}
+  nextScene: 2
 --- !u!114 &746453881
 MonoBehaviour:
   m_ObjectHideFlags: 0

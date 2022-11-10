@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/0Lobby.unity
     guid: 7e6760893ea2048a4b385e55b3b9edca
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Board.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Minigame.unity
+    guid: ba0cd3e893e45495bbd454abc9dd391e
   m_configObjects: {}

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
+	[SerializeField] private GameManager gm;
 	[SerializeField] private int nPlayers;
 
 
@@ -17,10 +19,13 @@ public class BoardManager : MonoBehaviour
 
 
 
+	[Header("Ui Related")]
+	[SerializeField] private Transform mainCanvas;
+
+
 	[Header("Board Related")]
 	[SerializeField] private Node startingNode;
 	[SerializeField] private Transform mainCam;
-	[SerializeField] private GameManager gm;
 	[SerializeField] private List<int> playerOrder;
 	private int nextPlayer;
 
@@ -74,6 +79,9 @@ public class BoardManager : MonoBehaviour
 			player.moveCounter.cam = this.mainCam;
             // player.sceneName = this.sceneName;
 
+			if (mainCanvas != null)
+				player.SetUiData(mainCanvas);
+
 			players.Add(player);
 			playerOrder.Add(i);
         }
@@ -82,19 +90,18 @@ public class BoardManager : MonoBehaviour
 
 	public void NextPlayerTurn()
 	{
+		// NEXT PLAYER'S TURN
 		if (nextPlayer < playerOrder.Count)
-		{
 			players[ playerOrder[nextPlayer++] ].YOUR_TURN();
-		}
 		// EVERYONE HAS THEIR TURN
 		else
-		{
-			Debug.Log("MINIGAME!!");
-		}
+			StartCoroutine( StartMinigame() );
 	}
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+	
+	IEnumerator StartMinigame()
+	{
+		Debug.Log("MINIGAME!!");
+		yield return new WaitForSeconds(1);
+		SceneManager.LoadScene(2);
+	}
 }
