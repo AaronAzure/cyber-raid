@@ -46,7 +46,7 @@ public class MinigameControls : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         if (canMove && !receivingKb)
 			CalculateMoveSpeed();
     }
