@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 	public int nPlayers;
 	public List<int> characterInds;
 	public Rewired.InputManager rewInputManager;
+	public string boardName;
+	public bool hasStarted;
+
 
 	void Awake() 
 	{

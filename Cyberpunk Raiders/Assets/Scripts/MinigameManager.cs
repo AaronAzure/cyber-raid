@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class MinigameManager : MonoBehaviour
@@ -16,8 +17,13 @@ public class MinigameManager : MonoBehaviour
 	[SerializeField] private float spawnRadius=2;
 
 
+	[Space] [Header("Static")]
+	[SerializeField] TextMeshProUGUI timerTxt;
+
+
 	[Space] [Header("Game Conditions")]
 	[SerializeField] bool playerCanMove;
+	[SerializeField] float timer=30;
 
 
 
@@ -74,6 +80,26 @@ public class MinigameManager : MonoBehaviour
     // {
         
     // }
+
+	private void FixedUpdate() 
+	{
+		if (timer > 0)
+			timer -= Time.fixedDeltaTime;
+		else if (timer < 0)
+			timer = 0;
+		
+		timerTxt.text = timer.ToString("F2");
+
+		if (timer == 0)
+			StartCoroutine( ReturnToBoard() );
+	}
+
+	IEnumerator ReturnToBoard()
+	{
+		this.enabled = false;
+		yield return new WaitForSeconds(1);
+		SceneManager.LoadScene(gm.boardName);
+	}
 
 	// IEnumerator StartMinigame()
 	// {

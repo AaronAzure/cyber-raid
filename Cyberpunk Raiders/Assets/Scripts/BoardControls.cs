@@ -15,6 +15,15 @@ public class BoardControls : MonoBehaviour
 	[SerializeField] Rewired.Integration.UnityUI.RewiredStandaloneInputModule rewiredModule;
 	
 
+	[Header("Inventory")]
+	[SerializeField] int datas;
+	[SerializeField] int keys;
+	[SerializeField] TextMeshProUGUI datasTxt;
+	[SerializeField] TextMeshProUGUI keysTxt;
+	[SerializeField] int energy;
+
+
+
 	[Space] [Header("Managers")]
 	public BoardManager manager; 
 	public GameManager gm;
@@ -23,11 +32,13 @@ public class BoardControls : MonoBehaviour
 	[Space] [Header("Paths")]
 	public Node currentNode;
 	public Node nextNode;
+	public NodeMaster nodeMaster;
 	public GameObject[] models;
 	[Space] public float moveSpeed = 20;
 	public float rotateSpeed = 5;
 	private float timer = 0;
 	public BillBoard moveCounter;
+	private int nodeInd;
 
 
 	[SerializeField] GameObject options;
@@ -143,7 +154,7 @@ public class BoardControls : MonoBehaviour
 			// REACHED
 			else
 			{
-				Debug.Log(test);
+				// Debug.Log(test);
 				this.enabled = false;
 				canMoveAside = false;
 				EndTurn();
@@ -215,6 +226,29 @@ public class BoardControls : MonoBehaviour
 			playerCam.SetActive(true);
 	}
 
+	public void SAVE_STATE()
+	{
+		PlayerPrefsElite.SetInt("datas" + playerId, datas);
+		PlayerPrefsElite.SetInt("keys" + playerId, keys);
+		PlayerPrefsElite.SetInt("energy" + playerId, energy);
+		Debug.Log(currentNode.name.ToString() + " : " + nodeMaster.indMap.ContainsKey(currentNode).ToString());
+		PlayerPrefsElite.SetInt("nodeInd" + playerId, nodeMaster.indMap[currentNode]);
+	}
+
+	public void LOAD_SAVE_STATE()
+	{
+		if (PlayerPrefsElite.VerifyInt("datas" + playerId))
+			datas = PlayerPrefsElite.GetInt("datas" + playerId);
+		if (PlayerPrefsElite.VerifyInt("keys" + playerId))
+			keys = PlayerPrefsElite.GetInt("keys" + playerId);
+		if (PlayerPrefsElite.VerifyInt("energy" + playerId))
+			energy = PlayerPrefsElite.GetInt("energy" + playerId);
+		if (PlayerPrefsElite.VerifyInt("nodeInd" + playerId))
+			nodeInd = PlayerPrefsElite.GetInt("nodeInd" + playerId);
+		nextNode = nodeMaster.nodeMap[nodeInd];
+		transform.position = nextNode.transform.position + posOffset;
+	}
+
 	public void EndTurn()
 	{
 		options.SetActive(false);
@@ -252,11 +286,6 @@ public class BoardControls : MonoBehaviour
 		{
 			mapCam.transform.position = transform.position + new Vector3(0, 25, -30);
 			mapCam.SetActive(true);
-			// if (mapCamObj != null)
-			// {
-			// 	mapCamObj.transform.position = transform.position + new Vector3(-30, 25, 0);
-			// 	mapCamObj.SetActive(true);
-			// }
 		}
 		options.SetActive(false);
 	}
@@ -267,8 +296,6 @@ public class BoardControls : MonoBehaviour
 		if (mapCam != null)
 			mapCam.SetActive(false);
 		options.SetActive(true);
-		// if (mapCamObj != null)
-		// 	mapCamObj.SetActive(false);
 	}
 
 	private void MoveMap()

@@ -1450,6 +1450,27 @@ MonoBehaviour:
     - {fileID: 387396965}
     - {fileID: 1012184101}
     - {fileID: 1437260857}
+  indMap:
+    m_keys:
+    - {fileID: 582439624}
+    - {fileID: 2032359740}
+    - {fileID: 1827098204}
+    - {fileID: 1075699653}
+    - {fileID: 1018772861}
+    - {fileID: 1611570111}
+    - {fileID: 1351488815}
+    - {fileID: 1009394964}
+    - {fileID: 2033357318}
+    - {fileID: 834980572}
+    - {fileID: 1991840659}
+    - {fileID: 1117784923}
+    - {fileID: 612452759}
+    - {fileID: 1748418675}
+    - {fileID: 1610092982}
+    - {fileID: 387396965}
+    - {fileID: 1012184101}
+    - {fileID: 1437260857}
+    m_values: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
 --- !u!1 &1219948998
 GameObject:
   m_ObjectHideFlags: 0
@@ -3619,6 +3640,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 773409304}
     - target: {fileID: 3996885760530702797, guid: d3fd9baf9db5c4d78a86f4be81d30930, type: 3}
+      propertyPath: nodeMaster
+      value: 
+      objectReference: {fileID: 1219123773}
+    - target: {fileID: 3996885760530702797, guid: d3fd9baf9db5c4d78a86f4be81d30930, type: 3}
       propertyPath: startingNode
       value: 
       objectReference: {fileID: 582439624}
@@ -4137,10 +4162,16 @@ MonoBehaviour:
   playerId: 0
   playerCam: {fileID: 2000252479824121558}
   rewiredModule: {fileID: 4770665680609517760}
+  datas: 0
+  keys: 0
+  datasTxt: {fileID: 0}
+  keysTxt: {fileID: 0}
+  energy: 0
   manager: {fileID: 0}
   gm: {fileID: 0}
   currentNode: {fileID: 0}
   nextNode: {fileID: 0}
+  nodeMaster: {fileID: 0}
   models:
   - {fileID: 5714682680688316189, guid: 9e98e86a6a54d44fea19282c818a0cc9, type: 3}
   - {fileID: 6558875021260430703, guid: 060b7d01669194924850e3e7a618a20a, type: 3}

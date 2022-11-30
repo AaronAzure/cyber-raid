@@ -7,6 +7,7 @@ public class BoardManager : MonoBehaviour
 {
 	[SerializeField] private GameManager gm;
 	[SerializeField] private int nPlayers;
+	[SerializeField] private int gameNumber;
 
 
 	[Header("Player Related")]
@@ -25,9 +26,12 @@ public class BoardManager : MonoBehaviour
 
 	[Header("Board Related")]
 	[SerializeField] private Node startingNode;
+	[SerializeField] private NodeMaster nodeMaster;
 	[SerializeField] private Transform mainCam;
 	[SerializeField] private List<int> playerOrder;
 	private int nextPlayer;
+	[SerializeField] private int turnNumber=1;
+	private int maxTurns=15;
 
 	
     // Start is called before the first frame update
@@ -46,6 +50,19 @@ public class BoardManager : MonoBehaviour
 
 		SpawnPlayersInCircle();
 		NextPlayerTurn();
+
+		if (!gm.hasStarted)
+		{
+			gm.boardName = SceneManager.GetActiveScene().name;
+			gm.hasStarted = true;
+		}
+		else 
+		{
+			if (PlayerPrefsElite.VerifyInt("turnNumber"))
+				turnNumber = PlayerPrefsElite.GetInt("turnNumber");
+			foreach (BoardControls player in players)
+				player.LOAD_SAVE_STATE();
+		}
     }
 
 
@@ -76,6 +93,7 @@ public class BoardManager : MonoBehaviour
             player.manager = this;
             player.gm = this.gm;
             player.currentNode = startingNode;
+            player.nodeMaster = nodeMaster;
 			player.moveCounter.cam = this.mainCam;
             // player.sceneName = this.sceneName;
 
@@ -95,8 +113,20 @@ public class BoardManager : MonoBehaviour
 			players[ playerOrder[nextPlayer++] ].YOUR_TURN();
 		// EVERYONE HAS THEIR TURN
 		else
+		{
+			SavePlayerStates();
 			StartCoroutine( StartMinigame() );
+		}
 	}
+
+	void SavePlayerStates()
+	{
+		PlayerPrefsElite.SetInt("turnNumber", ++turnNumber);
+
+		foreach (BoardControls player in players)
+			player.SAVE_STATE();
+	}
+
 	
 	IEnumerator StartMinigame()
 	{
