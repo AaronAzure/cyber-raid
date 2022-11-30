@@ -1558,8 +1558,9 @@ MonoBehaviour:
   players: []
   spawnPos: {fileID: 855004850}
   spawnRadius: 2
-  playerCanMove: 1
   timerTxt: {fileID: 2140395976}
+  playerCanMove: 1
+  timer: 3
 --- !u!4 &855004850
 Transform:
   m_ObjectHideFlags: 0

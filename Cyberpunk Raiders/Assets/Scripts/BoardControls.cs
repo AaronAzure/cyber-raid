@@ -65,6 +65,10 @@ public class BoardControls : MonoBehaviour
 	public int test;
 
 
+	[Space] [Header("Sound")]
+	[SerializeField] AudioSource processingAudio;
+
+
 	public void SetPlayerConfig(int id, Rewired.InputManager rim, GameObject cam, GameObject camObj)
 	{
 		playerId = id;
@@ -90,10 +94,14 @@ public class BoardControls : MonoBehaviour
 
 	void OnEnable() 
 	{
+		Debug.Log("enabling");
+
 		if (nextNode == null && currentNode != null && currentNode.nodes != null && currentNode.nodes.Count > 0)
 		{
 			nextNode = currentNode.nodes[0];
 		}
+		datasTxt.text = datas.ToString();
+		keysTxt.text = keys.ToString();
 	}
 
 	// Start is called before the first frame update
@@ -206,7 +214,8 @@ public class BoardControls : MonoBehaviour
 				{
 					asidePos = transform.position + (playerId == 0 ? new Vector3(2.5f,0,0) : new Vector3(-2.5f,0,0));
 					canMove = false;
-					canMoveAside = true;
+					StartCoroutine( GainData( currentNode.GetNodeEffect() ) );
+					// canMoveAside = true;
 				}
 			}
 		}
@@ -237,16 +246,20 @@ public class BoardControls : MonoBehaviour
 
 	public void LOAD_SAVE_STATE()
 	{
+		Debug.Log("loading");
 		if (PlayerPrefsElite.VerifyInt("datas" + playerId))
 			datas = PlayerPrefsElite.GetInt("datas" + playerId);
+		datasTxt.text = datas.ToString();
 		if (PlayerPrefsElite.VerifyInt("keys" + playerId))
 			keys = PlayerPrefsElite.GetInt("keys" + playerId);
+		keysTxt.text = keys.ToString();
 		if (PlayerPrefsElite.VerifyInt("energy" + playerId))
 			energy = PlayerPrefsElite.GetInt("energy" + playerId);
 		if (PlayerPrefsElite.VerifyInt("nodeInd" + playerId))
 			nodeInd = PlayerPrefsElite.GetInt("nodeInd" + playerId);
-		nextNode = nodeMaster.nodeMap[nodeInd];
-		transform.position = nextNode.transform.position + posOffset;
+		currentNode = nodeMaster.nodeMap[nodeInd];
+		transform.position = currentNode.transform.position + posOffset;
+		OnEnable();
 	}
 
 	public void EndTurn()
@@ -307,5 +320,23 @@ public class BoardControls : MonoBehaviour
 		{
 			mapCam.transform.position = new Vector3(mapCam.transform.position.x + x, mapCam.transform.position.y, mapCam.transform.position.z + z);
 		}
+	}
+
+	IEnumerator GainData(int n)
+	{
+		float delay = n < 50 ? 0.1f : 0.01f;
+		// if (n > 50)
+		// 	delay = 0.01f;
+		processingAudio.Play();
+		for (int i=0 ; i<n ; i++)
+		{
+			yield return new WaitForSeconds(delay);
+			datas++;
+			datasTxt.text = datas.ToString();
+		}
+		processingAudio.Stop();
+		yield return new WaitForSeconds(0.5f);
+		canMoveAside = true;
+		// EndTurn();
 	}
 }
