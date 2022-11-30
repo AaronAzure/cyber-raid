@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
+	public bool hasData;
 	public List<Node> nodes;
 
 
