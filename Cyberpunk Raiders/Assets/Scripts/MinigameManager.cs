@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 public class MinigameManager : MonoBehaviour
 {
 	[SerializeField] private GameManager gm;
+	[SerializeField] private Camera mainCam;
 	[SerializeField] private int nPlayers;
+	private bool previewGame;
 
 
 	[Space] [Header("Player Related")]
@@ -30,6 +32,10 @@ public class MinigameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		previewGame = (SceneManager.GetActiveScene().name == "2Preview" && mainCam != null);
+		if (previewGame)
+			mainCam.rect = new Rect(0.04f, 0.24f, 0.68f, 0.68f);
+
 		if (GameObject.Find("GAME MANAGER") != null)
         	gm = GameObject.Find("GAME MANAGER").GetComponent<GameManager>();
 		else
@@ -98,7 +104,13 @@ public class MinigameManager : MonoBehaviour
 	{
 		this.enabled = false;
 		yield return new WaitForSeconds(1);
-		SceneManager.LoadScene(gm.boardName);
+		if (previewGame)
+		{
+			SceneManager.UnloadSceneAsync("Minigame");
+			SceneManager.LoadSceneAsync("Minigame", LoadSceneMode.Additive);
+		}
+		else
+			SceneManager.LoadScene(gm.boardName);
 	}
 
 	// IEnumerator StartMinigame()

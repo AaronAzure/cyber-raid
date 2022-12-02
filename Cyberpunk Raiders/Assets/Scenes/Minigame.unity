@@ -1069,10 +1069,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1600, y: 900}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1089,9 +1089,9 @@ Canvas:
   m_GameObject: {fileID: 411408828}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 2070200486992854658}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1099,7 +1099,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!1001 &438347589
 PrefabInstance:
@@ -1553,6 +1553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 0}
+  mainCam: {fileID: 2070200486992854658}
   nPlayers: 0
   playerObj: {fileID: 5889989396279255299, guid: 0091be87b226c4c4a9f197b61bf23aef, type: 3}
   players: []
@@ -2932,6 +2933,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 2070200486763010928, guid: a5748d6f3e36645a88c2fcacfef5d8b3, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070200486763010928, guid: a5748d6f3e36645a88c2fcacfef5d8b3, type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2070200486763010931, guid: a5748d6f3e36645a88c2fcacfef5d8b3, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2978,3 +2987,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5748d6f3e36645a88c2fcacfef5d8b3, type: 3}
+--- !u!20 &2070200486992854658 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2070200486763010928, guid: a5748d6f3e36645a88c2fcacfef5d8b3, type: 3}
+  m_PrefabInstance: {fileID: 2070200486992854657}
+  m_PrefabAsset: {fileID: 0}

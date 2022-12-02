@@ -132,6 +132,6 @@ public class BoardManager : MonoBehaviour
 	{
 		Debug.Log("MINIGAME!!");
 		yield return new WaitForSeconds(1);
-		SceneManager.LoadScene(2);
+		SceneManager.LoadScene("2Preview");
 	}
 }

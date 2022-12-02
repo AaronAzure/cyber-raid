@@ -20,6 +20,7 @@ public class BoardControls : MonoBehaviour
 	[SerializeField] int keys;
 	[SerializeField] TextMeshProUGUI datasTxt;
 	[SerializeField] TextMeshProUGUI keysTxt;
+	[SerializeField] TextMeshProUGUI rewardTxt;
 	[SerializeField] int energy;
 
 
@@ -67,6 +68,7 @@ public class BoardControls : MonoBehaviour
 
 	[Space] [Header("Sound")]
 	[SerializeField] AudioSource processingAudio;
+	[SerializeField] AudioSource traverseAudio;
 
 
 	public void SetPlayerConfig(int id, Rewired.InputManager rim, GameObject cam, GameObject camObj)
@@ -186,6 +188,7 @@ public class BoardControls : MonoBehaviour
 			else
 			{
 				moveCount--;
+				traverseAudio.Play();
 
 				if (moveCounterTxt != null)
 				{
@@ -324,16 +327,19 @@ public class BoardControls : MonoBehaviour
 
 	IEnumerator GainData(int n)
 	{
-		float delay = n < 50 ? 0.1f : 0.01f;
-		// if (n > 50)
-		// 	delay = 0.01f;
+		float delay = n < 20 ? 0.2f : 0.01f;
 		processingAudio.Play();
-		for (int i=0 ; i<n ; i++)
+		rewardTxt.gameObject.SetActive(true);
+		rewardTxt.text = "+" + n.ToString();
+		for (int i=1 ; i<=n ; i++)
 		{
 			yield return new WaitForSeconds(delay);
 			datas++;
 			datasTxt.text = datas.ToString();
+			rewardTxt.text = "+" + (n-i).ToString();
 		}
+		rewardTxt.gameObject.SetActive(false);
+
 		processingAudio.Stop();
 		yield return new WaitForSeconds(0.5f);
 		canMoveAside = true;

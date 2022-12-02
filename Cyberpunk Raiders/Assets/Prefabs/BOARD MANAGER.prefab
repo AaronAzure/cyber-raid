@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 0}
   nPlayers: 0
+  gameNumber: 0
   playerObj: {fileID: 3760531665365459494, guid: ebbcba54cea6f4393bd4266b017717fe, type: 3}
   players: []
   spawnPos: {fileID: 0}
@@ -54,8 +55,10 @@ MonoBehaviour:
   mapCamObj: {fileID: 0}
   mainCanvas: {fileID: 3996885761003033733}
   startingNode: {fileID: 0}
+  nodeMaster: {fileID: 0}
   mainCam: {fileID: 0}
   playerOrder: 
+  turnNumber: 1
 --- !u!1 &3996885761003033732
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +134,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1600, y: 900}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

@@ -22,7 +22,7 @@ public class SetupManager : MonoBehaviour
 	[SerializeField] GameObject startUi;
 
 
-	[Space] [SerializeField] int nextScene=1;
+	[Space] [SerializeField] string nextScene;
 
 
 	void Awake() 
