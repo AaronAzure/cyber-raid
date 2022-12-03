@@ -10,6 +10,7 @@ public class MinigameManager : MonoBehaviour
 	[SerializeField] private Camera mainCam;
 	[SerializeField] private int nPlayers;
 	private bool previewGame;
+	[SerializeField] TransitionCanvas tc;
 
 
 	[Space] [Header("Player Related")]
@@ -34,7 +35,7 @@ public class MinigameManager : MonoBehaviour
     {
 		previewGame = (SceneManager.GetActiveScene().name == "2Preview" && mainCam != null);
 		if (previewGame)
-			mainCam.rect = new Rect(0.04f, 0.24f, 0.68f, 0.68f);
+			mainCam.rect = new Rect(0.04f, 0.25f, 0.68f, 0.68f);
 
 		if (GameObject.Find("GAME MANAGER") != null)
         	gm = GameObject.Find("GAME MANAGER").GetComponent<GameManager>();
@@ -103,6 +104,8 @@ public class MinigameManager : MonoBehaviour
 	IEnumerator ReturnToBoard()
 	{
 		this.enabled = false;
+		if (tc != null)
+			tc.ToBlack();
 		yield return new WaitForSeconds(1);
 		if (previewGame)
 		{

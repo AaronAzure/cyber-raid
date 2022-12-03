@@ -22,6 +22,7 @@ public class BoardManager : MonoBehaviour
 
 	[Header("Ui Related")]
 	[SerializeField] private Transform mainCanvas;
+	[SerializeField] private TransitionCanvas tc;
 
 
 	[Header("Board Related")]
@@ -131,6 +132,8 @@ public class BoardManager : MonoBehaviour
 	IEnumerator StartMinigame()
 	{
 		Debug.Log("MINIGAME!!");
+		if (tc != null)
+			tc.ToBlack();
 		yield return new WaitForSeconds(1);
 		SceneManager.LoadScene("2Preview");
 	}

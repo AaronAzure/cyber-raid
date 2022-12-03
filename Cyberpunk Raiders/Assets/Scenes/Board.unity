@@ -4233,6 +4233,7 @@ MonoBehaviour:
   mapSpeed: 20
   test: 0
   processingAudio: {fileID: 0}
+  traverseAudio: {fileID: 0}
 --- !u!1 &6362896196922272549
 GameObject:
   m_ObjectHideFlags: 0

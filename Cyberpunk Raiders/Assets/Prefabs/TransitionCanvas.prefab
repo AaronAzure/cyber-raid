@@ -60,7 +60,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1001
+  m_SortingOrder: 11001
   m_TargetDisplay: 0
 --- !u!114 &1794647057992959827
 MonoBehaviour:
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1794647057992959838}
+  fromBlackOnStart: 1
 --- !u!1 &1794647058667979115
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1794647058667979112
 RectTransform:
   m_ObjectHideFlags: 0
