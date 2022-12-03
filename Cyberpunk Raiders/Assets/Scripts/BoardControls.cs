@@ -171,7 +171,7 @@ public class BoardControls : MonoBehaviour
 			}
 		}
 		// MOVE TO NEXT NODE
-		else if (canMove && currentNode != null && nextNode != null && moveCount > 0)
+		else if (canMove && nextNode != null && moveCount > 0)
 		{
 			// MOVING
 			if (this.transform.position != nextNode.transform.position + posOffset) 

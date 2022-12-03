@@ -19,7 +19,6 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private GameObject mapCamObj;
 
 
-
 	[Header("Ui Related")]
 	[SerializeField] private Transform mainCanvas;
 	[SerializeField] private TransitionCanvas tc;
@@ -33,6 +32,11 @@ public class BoardManager : MonoBehaviour
 	private int nextPlayer;
 	[SerializeField] private int turnNumber=1;
 	private int maxTurns=15;
+
+
+	[Header("Boss Related")]
+	[SerializeField] List<Boss> bosses;
+	
 
 	
     // Start is called before the first frame update
@@ -93,7 +97,7 @@ public class BoardManager : MonoBehaviour
             player.SetPlayerConfig(i, gm.rewInputManager, mapCam, mapCamObj); 
             player.manager = this;
             player.gm = this.gm;
-            player.currentNode = startingNode;
+            player.nextNode = startingNode;
             player.nodeMaster = nodeMaster;
 			player.moveCounter.cam = this.mainCam;
             // player.sceneName = this.sceneName;
