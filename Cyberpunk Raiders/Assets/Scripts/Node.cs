@@ -10,7 +10,9 @@ public class Node : MonoBehaviour
 		poison=1
 	}
 
+	public bool isSpecialSpace;
 	public bool hasData;
+	public Boss boss;
 	public List<Node> nodes;
 	[SerializeField] NodeType nodeType;
 
@@ -19,6 +21,14 @@ public class Node : MonoBehaviour
 	void Start()
 	{
 		
+	}
+
+	/// <summary>
+	/// Returns true if player movement should not be decremented;
+	/// </summary>
+	public bool OnTraverse()
+	{
+		return (boss != null || isSpecialSpace);
 	}
 
 

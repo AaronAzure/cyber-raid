@@ -5,11 +5,12 @@ using Rewired;
 
 public class GameManager : MonoBehaviour
 {
-	public int nPlayers;
+	public int nPlayers { get; private set; }
 	public List<int> characterInds;
 	public Rewired.InputManager rewInputManager;
 	public string boardName;
 	public bool hasStarted;
+	[SerializeField] public string sceneName;
 
 
 	void Awake() 
@@ -26,9 +27,13 @@ public class GameManager : MonoBehaviour
 		DontDestroyOnLoad(this);
 	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public void SetNPlayers(int n)
+	{
+		nPlayers = n;
+	}
+
+	public string GetMinigameSceneName()
+	{
+		return sceneName;
+	}
 }

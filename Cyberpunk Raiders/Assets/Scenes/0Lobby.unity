@@ -12248,11 +12248,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8d7ac8cb20e4c27bf5f90014751b6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nPlayers: 0
   characterInds: 
   rewInputManager: {fileID: 736116440}
   boardName: 
   hasStarted: 0
+  sceneName: Minigame
 --- !u!4 &601557052
 Transform:
   m_ObjectHideFlags: 0

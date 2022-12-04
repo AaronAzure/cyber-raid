@@ -117,7 +117,7 @@ public class SetupManager : MonoBehaviour
 		{
 			if (gm != null)
 			{
-				gm.nPlayers = nConnected;
+				gm.SetNPlayers(nConnected);
 				for (int i=0 ; i<characterInds.Count ; i++)
 					if (characterInds[i] < gm.characterInds.Count)
 						gm.characterInds[ i ] = characterInds[i];
